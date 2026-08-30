@@ -2,6 +2,12 @@
 
 ## Overview
 
+This repository is a fork of the project created by ??? for their project. For the most up-to-date informations, refer to the original project.
+
+The modifications inclde a more comprehensive description of how to use the original project, a docker file so that it can more easily be used among different plateforms and the zebrafish transcriptome was added.
+
+## Overview
+
 This repository contains the code to design the oligonucleotides for mFISH3D.
 
 The code is heavily relying on [OligoMiner](http://dx.doi.org/10.1073/pnas.1714530115) tool. 

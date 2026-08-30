@@ -1,5 +1,5 @@
 database,./data/human_transcriptome/human_transcriptome_db
-fasta,/home/tmurakami/src/split-oligo-designer/data/slc17a7/slc17a7_hs.fasta
+fasta,./data/slc17a7/slc17a7_hs.fasta
 hcr_seqs,"{'seq_even_l': 'GAGGAGGGCAGCAAACGGaa', 'seq_odd_r': 'atGAAGAGTCTTCCTTTACG', 'seq_even_r': '', 'seq_odd_l': ''}"
 minimum_offtarget_gap,100
 self_remove,True
