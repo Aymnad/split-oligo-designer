@@ -2,80 +2,140 @@
 
 ## Overview
 
-This repository is a fork of the project created by Tatsuya C. Murakami for designing oligonucleotides for [mFISH3D](https://github.com/tatz-murakami/split-oligo-designer). For the most up-to-date informations, databases generation, refer to the original project.
+This repository is a fork of the project created by [Tatsuya C. Murakami](https://github.com/tatz-murakami) for designing oligonucleotides for mFISH3D. For the most up-to-date information and database generation, refer to the [original project](https://github.com/tatz-murakami/split-oligo-designer).
 
-The modifications include a more comprehensive description of how to use the original project, a docker file so that it can more easily be used among different plateforms (arm macOS, and x86 machines) along with the added zebrafish transcriptome.
+The modifications in this fork include:
+- A more comprehensive description of how to use the original project.
+- A **Dockerfile** for cross-platform compatibility (ARM macOS, x86 Linux, and **Windows**).
+- Added support for the **zebrafish transcriptome**.
+
+---
 
 ## Install Docker
 
-This repository required Docker
+This project **requires Docker** to run. Install it using the instructions below for your operating system.
 
+---
 ### On Windows
 
-To verify that Docker is installed, open 
-```
-$ 
-```
+1. **Install Docker Desktop for Windows**:
+   - Download and install [Docker Desktop](https://www.docker.com/products/docker-desktop/).
+   - Follow the installation instructions and **restart your computer** when prompted.
+
+2. **Verify Docker Installation**:
+   - Open **PowerShell** or **Command Prompt (CMD)**.
+   - Run the following command:
+     ```powershell
+     docker --version
+     ```
+   - If Docker is installed correctly, you will see output like:
+     ```
+     Docker version 24.0.7, build afdd53b
+     ```
+
+---
 ### On macOS
 
-To verify that Docker is installed, open a terminal (cmd+space barre, then type terminal and Enter). Write the next command and Enter:
-'''
-(base) User@MacBook path % docker --version
-'''
-If no version appear, follow the instruction on the Docker website to install it.
+1. **Install Docker Desktop for Mac**:
+   - Download and install [Docker Desktop](https://www.docker.com/products/docker-desktop/).
+   - Open the **Docker Desktop** app and follow the setup instructions.
 
-## Donwload and build
+2. **Verify Docker Installation**:
+   - Open a terminal (`Cmd + Space`, type "Terminal", and press Enter).
+   - Run:
+     ```bash
+     docker --version
+     ```
+   - If installed, you will see the Docker version (e.g., `Docker version 24.0.7, build afdd53b`).
 
+---
+
+## Download and Build
+
+---
 ### On Windows
 
-Download the project (click on the green <>Code button, then download ZIP), and unzip it. 
+1. **Download the Project**:
+   - Click the green **<> Code** button on the repository page.
+   - Select **Download ZIP** and extract the folder to a location of your choice (e.g., `C:\Users\YourName\Downloads\split-oligo-designer`).
 
+2. **Build the Docker Image**:
+   - Open **PowerShell** or **Command Prompt**.
+   - Navigate to the project directory:
+     ```powershell
+     cd C:\Users\YourName\Downloads\split-oligo-designer
+     ```
+   - Build the Docker image (for Windows, use `--platform linux/amd64` to ensure compatibility):
+     ```powershell
+     docker build --platform linux/amd64 -t split-oligo-designer .
+     ```
+
+3. **Run the Container**:
+   - Start the container with:
+     ```powershell
+     docker run --platform linux/amd64 -p 8888:8888 `
+       -v "${PWD}/data:/data" `
+       split-oligo-designer
+     ```
+   - A URL like `http://127.0.0.1:8888/lab?token=aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa` will appear in the terminal.
+   - Copy and paste this URL into your web browser to access **Jupyter Lab**.
+   - Open the `OligoDesign.ipynb` notebook and execute each cell (press `Shift + Enter`).
+
+4. **Clean Up**:
+   - When finished, stop and remove the container via **Docker Desktop**:
+     - Open Docker Desktop.
+     - Go to **Containers**.
+     - Stop and delete the `split-oligo-designer` container.
+     - *Note*: The Docker image remains on your machine unless manually removed.
+
+---
 ### On macOS
 
-Download the project (click on the green <>Code button, then download ZIP), and unzip it. Open a terminal, the text should look like this:
-'''
-(base) User@MacBook ~ % 
-'''
+1. **Download the Project**:
+   - Click the green **<> Code** button and select **Download ZIP**.
+   - Extract the folder (e.g., to `~/Downloads/split-oligo-designer`).
 
-Enter this command to change the path the terminal has access to, change the path according to where the project folder is:
-'''
-(base) User@MacBook ~ % cd /Users/user/Downloads/split-oligo-designer
-'''
-The text shown in the terminal should change to 
-'''
-(base) User@MacBook split-oligo-designer % 
-'''
+2. **Build the Docker Image**:
+   - Open a terminal and navigate to the project directory:
+     ```bash
+     cd ~/Downloads/split-oligo-designer
+     ```
+   - Build the image:
+     ```bash
+     docker build --platform linux/amd64 -t split-oligo-designer .
+     ```
 
-Then enter:
-'''
-docker build --platform linux/amd64 -t split-oligo-designer .  
-'''
-Once the docker image is build, enter
-'''
-docker run --platform linux/amd64 -p 8888:8888 \
-  -v "$(pwd)/data:/data" \
-  split-oligo-designer
-'''
-A url appears (smiliar to http://127.0.0.1:8888/lab?token=aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa), copy and paste it in a browser. Within Jupyter lab, double clisk on the OligoDesign.ipynb file. Execute each code cell (shift+Enter) while modifying the arguments according to your need. 
+3. **Run the Container**:
+   - Start the container:
+     ```bash
+     docker run --platform linux/amd64 -p 8888:8888 \
+       -v "$(pwd)/data:/data" \
+       split-oligo-designer
+     ```
+   - Copy the URL (e.g., `http://127.0.0.1:8888/lab?token=aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa`) into your browser.
+   - Open `OligoDesign.ipynb` and execute each cell (`Shift + Enter`).
 
-Once docker is not needed anymore, open the docker desktop dashboard, go to container, stop and delete the split-oligo-designer container. Know that the base image is still present on your machine.
+4. **Clean Up**:
+   - Open **Docker Desktop**, go to **Containers**, and stop/delete the `split-oligo-designer` container.
 
+---
 ## Parameters
-The example of the parameters are shown below.
+
+### mFISH3D Parameters
+The example parameters for `mFISH3D_param` are shown below:
 ```python
 mFISH3D_param = {
-    'fasta':'/home/tmurakami/src/split-oligo-designer/data/slc17a7/slc17a7_hs.fasta',
-    'database':'/home/tmurakami/src/split-oligo-designer/data/human_transcriptome/human_transcriptome_db',
-    'minimum_offtarget_gap':100,
-    'hcr_seqs':{
-            'seq_even_l':'GAGGAGGGCAGCAAACGGaa',
-            'seq_odd_r':'atGAAGAGTCTTCCTTTACG',
-            'seq_even_r':'',
-            'seq_odd_l':''
-        },
-    'self_remove': True # set this True if your template sequence appears in database.
+    'fasta': '/data/your_gene/your_gene.fasta',  # Path to your FASTA file (mounted in /data)
+    'database': '/data/your_transcriptome/your_transcriptome_db',  # Path to the transcriptome database
+    'minimum_offtarget_gap': 100,  # Recommended: 100
+    'hcr_seqs': {
+        'seq_even_l': 'GAGGAGGGCAGCAAACGGaa',
+        'seq_odd_r': 'atGAAGAGTCTTCCTTTACG',
+        'seq_even_r': '',
+        'seq_odd_l': ''
+    },
+    'self_remove': True  # Set to True if your template sequence is in the database.
 }
-```
 
 `minimum_offtarget_gap`
 If the gap between two non-specific binding is more than minimum_offtarget_gap, the pair is not regarded to cause a off-target signal. Recommended value: 100.
