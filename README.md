@@ -2,56 +2,63 @@
 
 ## Overview
 
-This repository is a fork of the project created by ??? for their project. For the most up-to-date informations, refer to the original project.
+This repository is a fork of the project created by Tatsuya C. Murakami for designing oligonucleotides for [mFISH3D](https://github.com/tatz-murakami/split-oligo-designer). For the most up-to-date informations, databases generation, refer to the original project.
 
-The modifications inclde a more comprehensive description of how to use the original project, a docker file so that it can more easily be used among different plateforms and the zebrafish transcriptome was added.
+The modifications include a more comprehensive description of how to use the original project, a docker file so that it can more easily be used among different plateforms (arm macOS, and x86 machines) along with the added zebrafish transcriptome.
 
-## Overview
+## Install Docker
 
-This repository contains the code to design the oligonucleotides for mFISH3D.
+This repository required Docker
 
-The code is heavily relying on [OligoMiner](http://dx.doi.org/10.1073/pnas.1714530115) tool. 
+### On Windows
 
-
-
-## Software prerequisites
-Tested on Ubuntu 20.04 LTS with the following version of software.
-
-- [BLAST](https://ftp.ncbi.nlm.nih.gov/blast/executables/blast+/LATEST/) (2.13.0)
-- Python 3.8
-
-Make sure to set the path to the BLAST.
-
-## Installing dependencies
-
-1. Make sure you have [conda](https://docs.conda.io/en/latest/miniconda.html) installed.
-2. Create a new environement (python=3.8), and install the dependencies.
-
+To verify that Docker is installed, open 
 ```
-$ git clone https://github.com/tatz-murakami/split-oligo-designer.git
-$ cd split-oligo-designer
-$ conda env create -f environment.yml
-$ conda activate oligo
-
-$ pip install . # install oligodesigner
+$ 
 ```
+### On macOS
 
-## Database and template sequence
+To verify that Docker is installed, open a terminal (cmd+space barre, then type terminal and Enter). Write the next command and Enter:
+'''
+(base) User@MacBook path % docker --version
+'''
+If no version appear, follow the instruction on the Docker website to install it.
 
-### Make database
-1. Download and make the database for blast. The database for the cDNA  can be found at [Ensembl](http://www.ensembl.org/info/data/ftp/index.html.)
-2. Generate the blast database according to the instruction of [NCBI](https://www.ncbi.nlm.nih.gov/books/NBK569841/).   
-	```
-	makeblastdb -in my_transcriptome.fa -parse_seqids -dbtype nucl -out my_transcriptome_db
-	```
-	You can find an example in data/human_transcriptome`
-	
-### Download fasta template
-Download the fasta template from [NCBI](https://www.ncbi.nlm.nih.gov/) or else.
-	You can find an example in data/slc17a7/slc17a7_hs.fasta`
+## Donwload and build
 
-## Example usage
-The jupyter notebook is included `OligoDesign.ipynb`.
+### On Windows
+
+Download the project (click on the green <>Code button, then download ZIP), and unzip it. 
+
+### On macOS
+
+Download the project (click on the green <>Code button, then download ZIP), and unzip it. Open a terminal, the text should look like this:
+'''
+(base) User@MacBook ~ % 
+'''
+
+Enter this command to change the path the terminal has access to, change the path according to where the project folder is:
+'''
+(base) User@MacBook ~ % cd /Users/user/Downloads/split-oligo-designer
+'''
+The text shown in the terminal should change to 
+'''
+(base) User@MacBook split-oligo-designer % 
+'''
+
+Then enter:
+'''
+docker build --platform linux/amd64 -t split-oligo-designer .  
+'''
+Once the docker image is build, enter
+'''
+docker run --platform linux/amd64 -p 8888:8888 \
+  -v "$(pwd)/data:/data" \
+  split-oligo-designer
+'''
+A url appears (smiliar to http://127.0.0.1:8888/lab?token=aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa), copy and paste it in a browser. Within Jupyter lab, double clisk on the OligoDesign.ipynb file. Execute each code cell (shift+Enter) while modifying the arguments according to your need. 
+
+Once docker is not needed anymore, open the docker desktop dashboard, go to container, stop and delete the split-oligo-designer container. Know that the base image is still present on your machine.
 
 ## Parameters
 The example of the parameters are shown below.
